@@ -1,0 +1,29 @@
+name: BossProject
+version: 2.0
+main: fr.moteldesope.mainpackage.main
+api-version: 1.21
+commands:
+    boss:
+        description: Pour avoir les informations du plugin.
+        usage: /boss
+        permission: boss.help
+    summonBoss:
+        description: Pour obtenir l'Outil d'appatition.
+        usage: /summonBoss
+        permission: boss.summon
+    removeBoss:
+        description: Pour supprimer le Boss.
+        usage: /removeBoss
+        permission: boss.remove
+    summonZominel:
+        description: Pour faire apparaitre Zominel.
+        usage: /summonZominel
+        permission: boss.summon
+    summonGolgy:
+        description: Pour faire apparaitre Golgy.
+        usage: /summonGolgy
+        permission: boss.summon
+    getUltimateSword:
+        description: Pour tuer efficacement.
+        usage: /getUltimateSword
+        permission: boss.weapon
