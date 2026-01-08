@@ -5,6 +5,10 @@
 
 Un boss zombie personnalisé pour pimenter la survie et créer des événements.
 
+## :t-rex: Golgy Boss
+
+Un boss golem personnalisé pour pimenter la survie et créer des événements.
+
 **Commande :**
 ```
 /summonboss
