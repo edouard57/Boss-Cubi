@@ -11,8 +11,8 @@ Un boss zombie personnalisé pour pimenter la survie et créer des événements.
 ```
 
 **Description :**
-- Fait apparaître le boss **Zombinel**
-- Boss bien plus puissant qu’un zombie classique
+- Ouvre le menu d'apparition des Boss.
+- Comme Zominel et Golgy (par exemple).
 - Parfait pour des events, défis ou combats de groupe
 
 ---
