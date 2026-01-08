@@ -127,28 +127,46 @@ public class summon implements CommandExecutor, Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                for (UUID id : bosses.keySet()) {
-                    Giant giant = bosses.get(id);
-                    BossBar bar = bossBars.get(id);
+                Iterator<Map.Entry<UUID, BossBar>> it = bossBars.entrySet().iterator();
+                
+                while (it.hasNext()) {
+                    Map.Entry<UUID, BossBar> entry = it.next();
+                    UUID uuid = entry.getKey();
+                    BossBar bar = entry.getValue();
+                    Entity entity = Bukkit.getEntity(uuid);
 
-                    if (giant == null || bar == null || giant.isDead()) continue;
+                    // 1. SI LE BOSS N'EXISTE PLUS : ON SUPPRIME TOUT
+                    if (entity == null || !entity.isValid() || entity.isDead()) {
+                        bar.removeAll(); // Retire la barre de l'écran de TOUS les joueurs
+                        it.remove();     // Supprime de la mémoire
+                        continue;
+                    }
 
-                    Location bossLoc = giant.getLocation();
+                    // 2. MISE À JOUR DE LA VIE
+                    if (entity instanceof LivingEntity) {
+                        LivingEntity boss = (LivingEntity) entity;
+                        bar.setProgress(Math.max(0.0, Math.min(1.0, boss.getHealth() / 500.0)));
+                    }
+
+                    // 3. GESTION DE LA DISTANCE (PROXIMITÉ)
+                    double rangeSquared = BOSSBAR_RANGE * BOSSBAR_RANGE; // 50 * 50
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        if (!player.getWorld().equals(bossLoc.getWorld())) {
-                            bar.removePlayer(player);
-                            continue;
-                        }
-
-                        if (player.getLocation().distance(bossLoc) <= BOSSBAR_RANGE) {
-                            bar.addPlayer(player);
+                        
+                        // Si le joueur est dans le même monde et à moins de 50 blocs
+                        if (player.getWorld().equals(entity.getWorld()) && 
+                            player.getLocation().distanceSquared(entity.getLocation()) <= rangeSquared) {
+                            
+                            if (!bar.getPlayers().contains(player)) {
+                                bar.addPlayer(player); // Affiche la barre
+                            }
                         } else {
+                            // Trop loin ou pas le bon monde : on cache la barre
                             bar.removePlayer(player);
                         }
                     }
                 }
             }
-        }.runTaskTimer(plugin, 0L, 10L);
+        }.runTaskTimer(plugin, 0L, 10L); // Mise à jour 2 fois par seconde
     }
 
     // ===============================

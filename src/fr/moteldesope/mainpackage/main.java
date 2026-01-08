@@ -32,7 +32,7 @@ public class main extends JavaPlugin {
 	    
 	    // Autres
 	    getCommand("getUltimateSword").setExecutor(new weapons());
-	    getCommand("removeBoss").setExecutor(new removeBoss());
+	    getCommand("removeBoss").setExecutor(new removeBoss(this));
 	}
 	
 	@Override
